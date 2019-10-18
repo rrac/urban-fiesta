@@ -34,6 +34,12 @@ function createData(rowNum, columnNum) {
   return data;
 }
 
+function updateData(data, rowNum, columnNum, color) {
+  const newData = data.map(subarray => [...subarray]);
+  newData[rowNum][columnNum] = color;
+  return newData;
+}
+
 function Board(props) {
   const rows = createRow(props.rows);
   const columns = createRow(props.columns);
@@ -44,9 +50,11 @@ function Board(props) {
         <div>
           {rows.map((_, rowIndx) => (
             <Tile
-              color={colors[rowIndx]}
+              color={colors[rowIndx][columnIndx]}
               onClick={() => {
+                const newColor = updateData(colors, rowIndx, columnIndx, "red");
                 console.log(columnIndx, rowIndx);
+                setColors(newColor);
               }}
             />
           ))}
