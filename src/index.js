@@ -14,6 +14,16 @@ const Tile = styled.div`
   }
 `;
 
+const MiniTile = styled.div`
+  background-color: ${props => props.color};
+  width: 5px;
+  height: 5px;
+  border: 1px solid black;
+  &:hover {
+    opacity: 1;
+  }
+`;
+
 function createRow(number) {
   const array = [];
   for (let i = 0; i < number; i++) {
@@ -42,6 +52,33 @@ function updateData(data, rowNum, columnNum) {
   return newData;
 }
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: right;
+  margin-right: 5px;
+`;
+
+function MiniBoard(props) {
+  const { rows, columns, colors, setColors } = props;
+  return (
+    <div>
+      <Container
+        onClick={() => {
+          setColors(colors);
+        }}
+      >
+        {columns.map((_, columnIndx) => (
+          <div>
+            {rows.map((_, rowIndx) => (
+              <MiniTile color={colors[rowIndx][columnIndx]} />
+            ))}
+          </div>
+        ))}
+      </Container>
+    </div>
+  );
+}
+
 function Board(props) {
   const { rows, columns, colors, setColors } = props;
   return (
@@ -68,6 +105,8 @@ function App() {
   const rows = createRow(3);
   const columns = createRow(4);
   const [colors, setColors] = useState(createData(3, 4));
+  const [savedData, setSavedData] = useState([]);
+
   return (
     <div>
       <Board
@@ -83,6 +122,20 @@ function App() {
       >
         Clear
       </button>
+      <button
+        onClick={() => {
+          const newSavedData = [...savedData];
+          newSavedData.push(colors);
+          setSavedData(newSavedData);
+        }}
+      >
+        Save
+      </button>
+      {savedData.map((savedColors, idx) => (
+        <div>
+          <MiniBoard rows={rows} columns={columns} colors={savedColors} />
+        </div>
+      ))}
     </div>
   );
 }
