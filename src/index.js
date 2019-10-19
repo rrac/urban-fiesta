@@ -64,8 +64,7 @@ function MiniBoard(props) {
     <div>
       <Container
         onClick={() => {
-          const newColor = updateData(colors, rowIndx, columnIndx);
-          setColors(newColor);
+          setColors(colors);
         }}
       >
         {columns.map((_, columnIndx) => (
@@ -138,11 +137,18 @@ function App() {
       >
         Save
       </button>
-      {savedData.map((savedColors, idx) => (
-        <div>
-          <MiniBoard rows={rows} columns={columns} colors={savedColors} />
-        </div>
-      ))}
+      <Container>
+        {savedData.map((savedColors, idx) => (
+          <div>
+            <MiniBoard
+              rows={rows}
+              columns={columns}
+              colors={savedColors}
+              setColors={setColors}
+            />
+          </div>
+        ))}
+      </Container>
     </div>
   );
 }
