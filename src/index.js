@@ -54,7 +54,7 @@ function updateData(data, rowNum, columnNum) {
 
 const Container = styled.div`
   display: flex;
-  flex-direction: right;
+  flex-direction: row;
   margin-right: 5px;
 `;
 
@@ -64,13 +64,20 @@ function MiniBoard(props) {
     <div>
       <Container
         onClick={() => {
-          setColors(colors);
+          const newColor = updateData(colors, rowIndx, columnIndx);
+          setColors(newColor);
         }}
       >
         {columns.map((_, columnIndx) => (
           <div>
             {rows.map((_, rowIndx) => (
-              <MiniTile color={colors[rowIndx][columnIndx]} />
+              <MiniTile
+                color={colors[rowIndx][columnIndx]}
+                onClick={() => {
+                  const newColor = updateData(colors, rowIndx, columnIndx);
+                  setColors(newColor);
+                }}
+              />
             ))}
           </div>
         ))}
